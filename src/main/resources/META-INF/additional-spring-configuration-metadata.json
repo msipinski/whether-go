@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "app.scheduler.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Description for app.scheduler.enabled."
+    }
+  ]
+}
