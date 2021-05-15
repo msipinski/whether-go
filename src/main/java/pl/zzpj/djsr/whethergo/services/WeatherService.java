@@ -8,7 +8,7 @@ import pl.zzpj.djsr.whethergo.dtos.WeatherDTO;
 import pl.zzpj.djsr.whethergo.entities.WeatherEntity;
 import pl.zzpj.djsr.whethergo.repositories.WeatherRepository;
 
-import java.time.Instant;
+import java.util.Date;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -23,12 +23,18 @@ public class WeatherService {
                 WeatherDTO.class
         );
         log.debug(weatherDTO);
-        var weatherEntity = new WeatherEntity(
-                weatherDTO.getMain().getTemp(),
-                weatherDTO.getMain().getPressure(),
-                weatherDTO.getMain().getHumidity(),
-                Instant.now()
-        );
-        weatherRepository.save(weatherEntity);
+        if (weatherDTO != null) {
+            var weatherEntity = new WeatherEntity(
+                    weatherDTO.getMain().getTemp(),
+                    weatherDTO.getMain().getPressure(),
+                    weatherDTO.getMain().getHumidity(),
+                    new Date()
+            );
+            log.debug(weatherEntity);
+            weatherRepository.save(weatherEntity);
+            log.debug("Imported data from openweathermap.org");
+        } else {
+            log.warn("Import from openweathermap.org failed");
+        }
     }
 }

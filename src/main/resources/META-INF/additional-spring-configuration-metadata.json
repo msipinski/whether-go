@@ -4,6 +4,11 @@
       "name": "app.scheduler.enabled",
       "type": "java.lang.Boolean",
       "description": "Description for app.scheduler.enabled."
+    },
+    {
+      "name": "app.dev",
+      "type": "java.lang.Boolean",
+      "description": "Description for app.dev."
     }
   ]
 }
