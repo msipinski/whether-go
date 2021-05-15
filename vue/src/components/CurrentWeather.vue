@@ -6,6 +6,8 @@
     <h2>Humidity: <span v-if="latest">{{ latest.humidity.toFixed(2) }}&percnt;</span></h2>
     <p>Last updated: <span v-if="latest">{{ latest.createdDate.toLocaleString() }}</span></p>
     <b-btn @click="fetchData">Refresh</b-btn>
+    <b-btn @click="setCityLondon">London</b-btn>
+    <b-btn @click="setCityWarsaw">Warsaw</b-btn>
   </div>
 </template>
 
@@ -24,10 +26,18 @@ export default {
       weatherService.latest().then(response => {
         this.latest = response.data
       })
+    },
+    setCityLondon() {
+    weatherService.setCity('London')
+    },
+    setCityWarsaw() {
+    weatherService.setCity('Warsaw')
     }
   },
   mounted() {
-    this.fetchData()
+    this.fetchData(),
+    this.setCityLondon(),
+    this.setCityWarsaw()
   }
 }
 </script>
