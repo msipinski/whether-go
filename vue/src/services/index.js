@@ -20,6 +20,9 @@ let weatherService = {
     return api.get('/weather/latest').then(res => {
       return {...res, data: processWeather(res.data)}
     })
+  },
+  setCity(cityName) {
+    api.get('/weather/setCity/'+cityName)
   }
 }
 

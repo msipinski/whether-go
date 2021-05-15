@@ -37,4 +37,27 @@ public class WeatherService {
             log.warn("Import from openweathermap.org failed");
         }
     }
+
+    public void importWeatherDataForCity(String cityName) {
+        var url = "https://api.openweathermap.org/data/2.5/weather?q="
+                + cityName + "&appid=6cc72bb35fdd263c3ea986c5be325603";
+        var weatherDTO = restTemplate.getForObject(
+                url,
+                WeatherDTO.class
+        );
+        log.debug(weatherDTO);
+        if (weatherDTO != null) {
+            var weatherEntity = new WeatherEntity(
+                    weatherDTO.getMain().getTemp(),
+                    weatherDTO.getMain().getPressure(),
+                    weatherDTO.getMain().getHumidity(),
+                    new Date()
+            );
+            log.debug(weatherEntity);
+            weatherRepository.save(weatherEntity);
+            log.debug("Imported data from openweathermap.org");
+        } else {
+            log.warn("Import from openweathermap.org failed");
+        }
+    }
 }
