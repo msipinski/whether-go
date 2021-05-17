@@ -9,6 +9,16 @@
       "name": "app.dev",
       "type": "java.lang.Boolean",
       "description": "Description for app.dev."
+    },
+    {
+      "name": "app.api.baseUri",
+      "type": "java.lang.String",
+      "description": "Description for app.api.baseUri."
+    },
+    {
+      "name": "app.location.default",
+      "type": "java.lang.String",
+      "description": "Description for app.location.default."
     }
   ]
 }

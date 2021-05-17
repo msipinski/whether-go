@@ -4,17 +4,20 @@ import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Getter
 @Setter
-@ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class WeatherEntity extends AbstractPersistable<Long> {
-    double temp;
-    double pressure;
-    double humidity;
+    Double temp;
+    Double pressure;
+    Double humidity;
     Date createdDate;
+    @ManyToOne
+    LocationEntity location;
 }
