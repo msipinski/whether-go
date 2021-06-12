@@ -5,7 +5,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.util.Date;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -17,7 +17,7 @@ public class WeatherEntity extends AbstractPersistable<Long> {
     Double temp;
     Double pressure;
     Double humidity;
-    Date createdDate;
+    Instant createdDate;
     @ManyToOne
     LocationEntity location;
 }
