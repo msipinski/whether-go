@@ -14,9 +14,9 @@ public class SchedulerService {
     final WeatherService weatherService;
     static String selectedCityName = "London";
 
-    @Scheduled(fixedRate = 10_000)
+    @Scheduled(fixedRate = 300_000)
     void importFromOpenWeatherMap() {
-        weatherService.importWeatherDataForCity(selectedCityName);
+        weatherService.importFromOpenWeatherMap();
     }
 
     public static void setSelectedCityName(String newCityName) {
