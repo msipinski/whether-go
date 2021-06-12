@@ -2,7 +2,6 @@ import axios from 'axios'
 
 let api = axios.create({
   baseURL: '/api/',
-  timeout: 1000,
 })
 
 api.interceptors.request.use(value => {
