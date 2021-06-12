@@ -4,7 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.zzpj.djsr.whethergo.accounts.entities.AccountEntity;
 import pl.zzpj.djsr.whethergo.entities.LocationEntity;
 import pl.zzpj.djsr.whethergo.entities.WeatherEntity;
@@ -22,14 +26,14 @@ import java.util.Optional;
 public class WeatherController {
     final WeatherRepository weatherRepository;
     final LocationRepository locationRepository;
-    final Authentication authentication;
 
-    @Value("app.location.default")
+    @Value("${app.location.default}")
     String defaultLocation;
 
     protected LocationEntity getLocation() {
-        return Optional.ofNullable(authentication)
+        return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
                 .map(Authentication::getPrincipal)
+                .filter(AccountEntity.class::isInstance)
                 .map(AccountEntity.class::cast)
                 .map(AccountEntity::getPreferredLocation)
                 .orElse(locationRepository.findByName(defaultLocation).orElse(null));
