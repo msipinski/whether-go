@@ -20,7 +20,13 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
       - name: Deploy with Maven
         env:
           DATASOURCE_URL: ${{ secrets.DATASOURCE_URL }}
-        run: mvn package appengine:deploy -DskipTests -Dspring.datasource.url=$DATASOURCE_URL
+        run: mvn -e package appengine:deploy -DskipTests -Dspring.datasource.url=$DATASOURCE_URL
