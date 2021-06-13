@@ -12,7 +12,9 @@ import pl.zzpj.djsr.whethergo.entities.WeatherEntity;
 import pl.zzpj.djsr.whethergo.repositories.LocationRepository;
 import pl.zzpj.djsr.whethergo.repositories.WeatherRepository;
 import pl.zzpj.djsr.whethergo.services.SchedulerService;
+import pl.zzpj.djsr.whethergo.services.WeatherService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +25,7 @@ import java.util.Optional;
 public class WeatherController {
     final WeatherRepository weatherRepository;
     final LocationRepository locationRepository;
+    final WeatherService weatherService;
     //final Authentication authentication;
 
     @Value("app.location.default")
@@ -51,5 +54,45 @@ public class WeatherController {
     public void setCity(@PathVariable String cityName) {
         log.debug("Chosen city " + cityName);
         SchedulerService.setSelectedCityName(cityName);
+    }
+
+    @GetMapping("/getCities/active")
+    public List<String> getActiveCities() {
+        List<LocationEntity> locations = weatherService.getActiveLocations();
+        ArrayList<String> locationNames = new ArrayList<>();
+        for(LocationEntity location : locations) {
+            locationNames.add(location.getName());
+        }
+        return locationNames;
+    }
+
+    @GetMapping("/getCities/inactive")
+    public List<String> getInctiveCities() {
+        List<LocationEntity> locations = weatherService.getInactiveLocations(); //.subList(0, 100);
+        ArrayList<String> locationNames = new ArrayList<>();
+        for(LocationEntity location : locations) {
+            locationNames.add(location.getName());
+        }
+        return locationNames;
+    }
+
+    @GetMapping("/addCity/{cityName}")
+    public boolean addCity(@PathVariable String cityName) {
+        return weatherService.setLocationImporting(cityName, true);
+    }
+
+    @GetMapping("/removeCity/{cityName}")
+    public boolean removeCity(@PathVariable String cityName) {
+        return weatherService.setLocationImporting(cityName, false);
+    }
+
+    @GetMapping("/importAll")
+    public void importForChosenCities() {
+        weatherService.importWeatherForChosenCities();
+    }
+
+    @GetMapping("/import/{cityName}")
+    public void importForCity(@PathVariable String cityName) {
+        weatherService.importWeatherDataForCity(cityName);
     }
 }

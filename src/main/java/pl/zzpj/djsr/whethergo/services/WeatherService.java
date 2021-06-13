@@ -84,4 +84,22 @@ public class WeatherService {
         }
         return false;
     }
+
+    public ArrayList<LocationEntity> getLocationsByImporting(boolean importing) {
+        ArrayList<LocationEntity> result = new ArrayList<>();
+        for(LocationEntity location : locationList) {
+            if(location.isImporting() == importing) {
+                result.add(location);
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<LocationEntity> getActiveLocations() {
+        return getLocationsByImporting(true);
+    }
+
+    public ArrayList<LocationEntity> getInactiveLocations() {
+        return getLocationsByImporting(false);
+    }
 }
