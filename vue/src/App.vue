@@ -3,18 +3,21 @@
     <img alt="Vue logo" src="./assets/logo.png">
     <current-weather/>
     <weather-charts/>
+    <city-importing/>
   </b-container>
 </template>
 
 <script>
 import CurrentWeather from "./components/CurrentWeather";
 import WeatherCharts from "./components/WeatherCharts";
+import CityImporting from "./components/CityImporting";
 
 export default {
   name: 'App',
   components: {
     WeatherCharts,
-    CurrentWeather
+    CurrentWeather,
+    CityImporting
   },
 }
 </script>
