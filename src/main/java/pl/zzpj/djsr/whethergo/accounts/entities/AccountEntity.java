@@ -22,11 +22,12 @@ public class AccountEntity extends AbstractPersistable<Long> implements UserDeta
     String username;
     String password;
     String email;
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     Set<AuthorityEnum> authorities;
     @ManyToOne
     LocationEntity preferredLocation;
-    @OneToMany( mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     @Cascade(org.hibernate.annotations.CascadeType.MERGE)
     List<SubscriptionEntity> subscriptions;
 

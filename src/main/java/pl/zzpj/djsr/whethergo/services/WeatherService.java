@@ -46,9 +46,9 @@ public class WeatherService {
         }
     }
 
-    public void importWeatherDataForCity(String cityName) {
+    public void importWeatherDataForCity(LocationEntity locationEntity) {
         var url = "https://api.openweathermap.org/data/2.5/weather?q="
-                + cityName + "&appid=6cc72bb35fdd263c3ea986c5be325603";
+                + locationEntity.getName() + "&appid=6cc72bb35fdd263c3ea986c5be325603";
         var weatherDTO = restTemplate.getForObject(
                 url,
                 WeatherDTO.class
@@ -59,6 +59,8 @@ public class WeatherService {
                     .temp(weatherDTO.getMain().getTemp())
                     .pressure(weatherDTO.getMain().getPressure())
                     .humidity(weatherDTO.getMain().getHumidity())
+                    .createdDate(Instant.now())
+                    .location(locationEntity)
                     .build();
             log.debug(weatherEntity);
             weatherRepository.save(weatherEntity);
@@ -72,7 +74,7 @@ public class WeatherService {
         for(LocationEntity location : this.locationRepository.findAll()) {
             if(location.isImporting()) {
                 log.debug("Importing data for " + location.getName());
-                importWeatherDataForCity(location.getName());
+                importWeatherDataForCity(location);
             }
         }
     }

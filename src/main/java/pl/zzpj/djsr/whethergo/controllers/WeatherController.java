@@ -21,6 +21,7 @@ import pl.zzpj.djsr.whethergo.services.WeatherService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Log4j2
@@ -94,6 +95,6 @@ public class WeatherController {
 
     @GetMapping("/import/{cityName}")
     public void importForCity(@PathVariable String cityName) {
-        weatherService.importWeatherDataForCity(cityName);
+        weatherService.importWeatherDataForCity(Objects.requireNonNull(locationService.getLocationByName(cityName).orElse(null)));
     }
 }
