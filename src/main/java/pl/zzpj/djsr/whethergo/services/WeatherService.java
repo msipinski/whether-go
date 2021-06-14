@@ -10,6 +10,7 @@ import pl.zzpj.djsr.whethergo.entities.WeatherEntity;
 import pl.zzpj.djsr.whethergo.repositories.LocationRepository;
 import pl.zzpj.djsr.whethergo.repositories.WeatherRepository;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +35,7 @@ public class WeatherService {
                     .temp(weatherDTO.getMain().getTemp())
                     .pressure(weatherDTO.getMain().getPressure())
                     .humidity(weatherDTO.getMain().getHumidity())
+                    .createdDate(Instant.now())
                     .build();
             log.debug(weatherEntity);
             weatherRepository.save(weatherEntity);

@@ -11,7 +11,6 @@ import pl.zzpj.djsr.whethergo.entities.LocationEntity;
 import pl.zzpj.djsr.whethergo.entities.WeatherEntity;
 import pl.zzpj.djsr.whethergo.repositories.LocationRepository;
 import pl.zzpj.djsr.whethergo.repositories.WeatherRepository;
-import pl.zzpj.djsr.whethergo.services.SchedulerService;
 import pl.zzpj.djsr.whethergo.services.WeatherService;
 
 import java.util.ArrayList;
@@ -26,9 +25,8 @@ public class WeatherController {
     final WeatherRepository weatherRepository;
     final LocationRepository locationRepository;
     final WeatherService weatherService;
-    //final Authentication authentication;
 
-    @Value("app.location.default")
+    @Value("${app.location.default}")
     String defaultLocation;
 
     protected LocationEntity getLocation() {
@@ -48,12 +46,6 @@ public class WeatherController {
     @GetMapping("/latest")
     public WeatherEntity latest() {
         return weatherRepository.findFirstByLocationOrderByCreatedDateDesc(getLocation());
-    }
-
-    @GetMapping("/setCity/{cityName}")
-    public void setCity(@PathVariable String cityName) {
-        log.debug("Chosen city " + cityName);
-        SchedulerService.setSelectedCityName(cityName);
     }
 
     @GetMapping("/getCities/active")
