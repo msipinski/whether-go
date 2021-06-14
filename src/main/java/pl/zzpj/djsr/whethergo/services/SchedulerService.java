@@ -15,6 +15,6 @@ public class SchedulerService {
 
     @Scheduled(fixedRate = 300_000)
     void importFromOpenWeatherMap() {
-        weatherService.importFromOpenWeatherMap();
+        weatherService.importWeatherForChosenCities();
     }
 }
