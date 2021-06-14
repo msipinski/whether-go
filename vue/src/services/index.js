@@ -23,6 +23,32 @@ let weatherService = {
   },
   setCity(cityName) {
     api.get('/weather/setCity/'+cityName)
+  },
+  getActiveCities() {
+    return api.get('/weather/getCities/active').then(res => {
+        return {...res, data: res.data}
+    })
+  },
+  getInactiveCities() {
+    return api.get('/weather/getCities/inactive').then(res => {
+        return {...res, data: res.data}
+    })
+  },
+  addCity(cityName) {
+    return api.get('/weather/addCity/' + cityName).then(res => {
+        return {...res, data: res.data}
+    })
+  },
+  removeCity(cityName) {
+      return api.get('/weather/removeCity/' + cityName).then(res => {
+          return {...res, data: res.data}
+      })
+  },
+  importForChosenCities() {
+    api.get('/weather/importAll')
+  },
+  importForCity(cityName) {
+    api.get('/weather/import/' + cityName)
   }
 }
 
