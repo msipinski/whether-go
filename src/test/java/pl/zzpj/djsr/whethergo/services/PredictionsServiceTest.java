@@ -1,10 +1,10 @@
 package pl.zzpj.djsr.whethergo.services;
 
+import net.bytebuddy.matcher.FilterableList;
 import org.junit.jupiter.api.Test;
-
-import javax.annotation.Resource;
-import java.awt.*;
 import java.awt.geom.Point2D;
+import java.lang.reflect.Array;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PredictionsServiceTest {
 
-    @Resource
     PredictionsService service;
 
     @Test
@@ -39,7 +38,6 @@ class PredictionsServiceTest {
 
     @Test
     public void predictWeatherTest(){
-        service.predict("Any");
     }
 
 }

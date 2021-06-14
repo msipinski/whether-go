@@ -62,8 +62,8 @@ public class WeatherService {
     }
 
     public void importWeatherForChosenCities() {
-        for(LocationEntity location : locationList) {
-            if(location.isImporting()) {
+        for (LocationEntity location : locationList) {
+            if (location.isImporting()) {
                 log.debug("Importing data for " + location.getName());
                 importWeatherDataForCity(location.getName());
             }
@@ -76,8 +76,8 @@ public class WeatherService {
     }
 
     public boolean setLocationImporting(String name, boolean importing) {
-        for(LocationEntity location : locationList) {
-            if(location.getName().equals(name)) {
+        for (LocationEntity location : locationList) {
+            if (location.getName().equals(name)) {
                 location.setImporting(importing);
                 return true;
             }
@@ -87,8 +87,8 @@ public class WeatherService {
 
     public ArrayList<LocationEntity> getLocationsByImporting(boolean importing) {
         ArrayList<LocationEntity> result = new ArrayList<>();
-        for(LocationEntity location : locationList) {
-            if(location.isImporting() == importing) {
+        for (LocationEntity location : locationList) {
+            if (location.isImporting() == importing) {
                 result.add(location);
             }
         }

@@ -5,7 +5,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.zzpj.djsr.whethergo.accounts.entities.AccountEntity;
 import pl.zzpj.djsr.whethergo.entities.LocationEntity;
 import pl.zzpj.djsr.whethergo.entities.WeatherEntity;
@@ -60,7 +63,7 @@ public class WeatherController {
     public List<String> getActiveCities() {
         List<LocationEntity> locations = weatherService.getActiveLocations();
         ArrayList<String> locationNames = new ArrayList<>();
-        for(LocationEntity location : locations) {
+        for (LocationEntity location : locations) {
             locationNames.add(location.getName());
         }
         return locationNames;
@@ -70,7 +73,7 @@ public class WeatherController {
     public List<String> getInctiveCities() {
         List<LocationEntity> locations = weatherService.getInactiveLocations(); //.subList(0, 100);
         ArrayList<String> locationNames = new ArrayList<>();
-        for(LocationEntity location : locations) {
+        for (LocationEntity location : locations) {
             locationNames.add(location.getName());
         }
         return locationNames;

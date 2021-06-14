@@ -29,7 +29,7 @@ public class DataLoader implements ApplicationRunner {
         String filePath = "src/main/resources/city_names.txt";
         FileReader locationFile = new FileReader("src/main/resources/city_names.txt", charset);
         Scanner scanner = new Scanner(locationFile);
-        while(scanner.hasNextLine()) {
+        while (scanner.hasNextLine()) {
             String scannedLocationName = scanner.nextLine();
             LocationEntity newLocation = new LocationEntity(scannedLocationName, false);
             locationList.add(newLocation);

@@ -4,6 +4,7 @@
     <current-weather/>
     <weather-charts/>
     <city-importing/>
+    <predictions/>
   </b-container>
 </template>
 
@@ -11,10 +12,12 @@
 import CurrentWeather from "./components/CurrentWeather";
 import WeatherCharts from "./components/WeatherCharts";
 import CityImporting from "./components/CityImporting";
+import Predictions from "./components/Predictions";
 
 export default {
   name: 'App',
   components: {
+    Predictions,
     WeatherCharts,
     CurrentWeather,
     CityImporting

@@ -52,6 +52,14 @@ let weatherService = {
   }
 }
 
+let predictionsService = {
+  predict(location){
+   api.get("/weather/prediction/"+location).then(res => {
+      return {...res, data: res.data}
+    })
+  },
+}
 export {
-  weatherService
+  weatherService,
+  predictionsService
 }
