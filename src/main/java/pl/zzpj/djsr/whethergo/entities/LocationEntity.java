@@ -14,4 +14,8 @@ import javax.persistence.Entity;
 public class LocationEntity extends AbstractPersistable<Long> {
     String name;
     boolean importing = false;
+
+    public LocationEntity(String name) {
+        this.name = name;
+    }
 }
