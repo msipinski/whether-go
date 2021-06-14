@@ -11,6 +11,7 @@ import pl.zzpj.djsr.whethergo.entities.LocationEntity;
 import pl.zzpj.djsr.whethergo.entities.WeatherEntity;
 import pl.zzpj.djsr.whethergo.repositories.LocationRepository;
 import pl.zzpj.djsr.whethergo.repositories.WeatherRepository;
+import pl.zzpj.djsr.whethergo.services.LocationService;
 import pl.zzpj.djsr.whethergo.services.WeatherService;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class WeatherController {
     final WeatherRepository weatherRepository;
     final LocationRepository locationRepository;
     final WeatherService weatherService;
+    final LocationService locationService;
 
     @Value("${app.location.default}")
     String defaultLocation;
@@ -50,7 +52,7 @@ public class WeatherController {
 
     @GetMapping("/getCities/active")
     public List<String> getActiveCities() {
-        List<LocationEntity> locations = weatherService.getActiveLocations();
+        List<LocationEntity> locations = locationService.getActiveLocations();
         ArrayList<String> locationNames = new ArrayList<>();
         for(LocationEntity location : locations) {
             locationNames.add(location.getName());
@@ -60,8 +62,8 @@ public class WeatherController {
     }
 
     @GetMapping("/getCities/inactive")
-    public List<String> getInctiveCities() {
-        List<LocationEntity> locations = weatherService.getInactiveLocations();
+    public List<String> getInactiveCities() {
+        List<LocationEntity> locations = locationService.getInactiveLocations();
         ArrayList<String> locationNames = new ArrayList<>();
         for(LocationEntity location : locations) {
             locationNames.add(location.getName());
@@ -72,12 +74,12 @@ public class WeatherController {
 
     @PostMapping("/addCity/{cityName}")
     public boolean addCity(@PathVariable String cityName) {
-        return weatherService.setLocationImporting(cityName, true);
+        return locationService.setLocationImporting(cityName, true);
     }
 
     @PostMapping("/removeCity/{cityName}")
     public boolean removeCity(@PathVariable String cityName) {
-        return weatherService.setLocationImporting(cityName, false);
+        return locationService.setLocationImporting(cityName, false);
     }
 
     @GetMapping("/importAll")
