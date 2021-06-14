@@ -6,6 +6,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import pl.zzpj.djsr.whethergo.entities.LocationEntity;
+import pl.zzpj.djsr.whethergo.repositories.LocationRepository;
 import pl.zzpj.djsr.whethergo.services.WeatherService;
 
 import java.io.FileReader;
@@ -20,6 +21,7 @@ import java.util.Scanner;
 public class DataLoader implements ApplicationRunner {
     ArrayList<LocationEntity> locationList = new ArrayList<>();
     final WeatherService weatherService;
+    final LocationRepository locationRepository;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -36,12 +38,10 @@ public class DataLoader implements ApplicationRunner {
         }
         log.debug("Done, number of locations: " + locationList.size());
         log.debug("==================");
-        weatherService.setLocationList(locationList);
-
-        // Na razie kilka miast ustawionych na sztywno
-        weatherService.setLocationImporting("Łódź", true);
-        weatherService.setLocationImporting("London", true);
-        weatherService.setLocationImporting("Warszawa", true);
-        weatherService.setLocationImporting("İstanbul", true);
+        int numberOfExistingLocations = locationRepository.findAll().size();
+        log.debug("Number of locations in database: " + numberOfExistingLocations);
+        if(numberOfExistingLocations == 0) {
+            weatherService.setLocationList(locationList);
+        }
     }
 }

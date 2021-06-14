@@ -61,25 +61,27 @@ public class WeatherController {
         for(LocationEntity location : locations) {
             locationNames.add(location.getName());
         }
+        log.debug(locationNames.size());
         return locationNames;
     }
 
     @GetMapping("/getCities/inactive")
     public List<String> getInctiveCities() {
-        List<LocationEntity> locations = weatherService.getInactiveLocations(); //.subList(0, 100);
+        List<LocationEntity> locations = weatherService.getInactiveLocations();
         ArrayList<String> locationNames = new ArrayList<>();
         for(LocationEntity location : locations) {
             locationNames.add(location.getName());
         }
+        log.debug(locationNames.size());
         return locationNames;
     }
 
-    @GetMapping("/addCity/{cityName}")
+    @PostMapping("/addCity/{cityName}")
     public boolean addCity(@PathVariable String cityName) {
         return weatherService.setLocationImporting(cityName, true);
     }
 
-    @GetMapping("/removeCity/{cityName}")
+    @PostMapping("/removeCity/{cityName}")
     public boolean removeCity(@PathVariable String cityName) {
         return weatherService.setLocationImporting(cityName, false);
     }

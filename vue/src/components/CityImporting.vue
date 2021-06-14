@@ -1,7 +1,8 @@
 <template>
   <div>
     <h2>Aktywne miasta</h2>
-    <b-btn @click="importForChosenCities()">Importuj aktywne</b-btn>
+    <span v-if="displayedActiveCities.length == 0" style="font-size: x-large;">Brak aktywnych miast</span>
+    <b-btn v-if="displayedActiveCities.length > 0" @click="importForChosenCities()">Importuj aktywne</b-btn>
     <table style="margin-left: auto; margin-right: auto; border-spacing: 0 5px;">
         <tbody>
             <tr v-for="cityName in displayedActiveCities" :key="cityName">
