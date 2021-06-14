@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.zzpj.djsr.whethergo.entities.LocationEntity;
+import pl.zzpj.djsr.whethergo.entities.SubscriptionEntity;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -23,6 +24,8 @@ public class AccountEntity extends AbstractPersistable<Long> implements UserDeta
     Set<AuthorityEnum> authorities;
     @ManyToOne
     LocationEntity preferredLocation;
+    @OneToMany
+    Set<SubscriptionEntity> subscriptions;
 
     @Override
     public boolean isAccountNonExpired() {

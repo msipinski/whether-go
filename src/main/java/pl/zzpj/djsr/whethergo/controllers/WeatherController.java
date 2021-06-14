@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.zzpj.djsr.whethergo.accounts.entities.AccountEntity;
 import pl.zzpj.djsr.whethergo.entities.LocationEntity;
@@ -11,7 +12,9 @@ import pl.zzpj.djsr.whethergo.entities.WeatherEntity;
 import pl.zzpj.djsr.whethergo.repositories.LocationRepository;
 import pl.zzpj.djsr.whethergo.repositories.WeatherRepository;
 import pl.zzpj.djsr.whethergo.services.SchedulerService;
+import pl.zzpj.djsr.whethergo.services.WeatherService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +24,7 @@ import java.util.Optional;
 @RequestMapping("${app.api.baseUri}/weather")
 public class WeatherController {
     final WeatherRepository weatherRepository;
+    final WeatherService weatherService;
     final LocationRepository locationRepository;
 
     @Value("app.location.default")
