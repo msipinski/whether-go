@@ -9,18 +9,39 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl.zzpj.djsr</groupId>
-    <artifactId>weather-go</artifactId>
+    <artifactId>whether-go</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>weather-go</name>
-    <description>Weather Go application</description>
+    <name>whether-go</name>
+    <description>Whether Go application</description>
 
     <properties>
         <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <app.scheduler.enabled>true</app.scheduler.enabled>
         <app.dev>false</app.dev>
     </properties>
 
     <profiles>
+        <profile>
+            <id>default-datasource-url</id>
+            <activation>
+                <property>
+                    <name>!spring.datasource.url</name>
+                </property>
+            </activation>
+            <properties>
+                <spring.datasource.url>jdbc:h2:mem:test</spring.datasource.url>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
         <profile>
             <id>dev</id>
             <!--enables CORS, in future: change JDBC URL for example-->
@@ -87,8 +108,8 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -162,6 +183,15 @@
                 <configuration>
                     <nodeVersion>v15.9.0</nodeVersion>
                     <workingDirectory>vue/</workingDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>appengine-maven-plugin</artifactId>
+                <version>2.4.0</version>
+                <configuration>
+                    <deploy.projectId>whether-go</deploy.projectId>
+                    <deploy.version>GCLOUD_CONFIG</deploy.version>
                 </configuration>
             </plugin>
         </plugins>
