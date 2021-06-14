@@ -53,8 +53,8 @@ let weatherService = {
 }
 
 let predictionsService = {
-  predict(location){
-   api.get("/weather/prediction/"+location).then(res => {
+  async predict(location) {
+    return api.get("weather/predict/" + location).then(res => {
       return {...res, data: res.data}
     })
   },

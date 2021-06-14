@@ -1,18 +1,17 @@
 <template>
   <div>
-  <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+  <select class="form-select form-select-sm" aria-label=".form-select-sm example" v-model="selected">
     <option selected>Open this select location</option>
-    <div v-for="city in activeCities" :key="city">
-      <option @click="selected=city">{{city}}</option>
-    </div>
+    <option  v-for="city in activeCities" :key="city" v-bind:value="{city}">{{city}}</option>
   </select>
   <b-button @click="predict(selected)">Prediction</b-button>
   <b-modal
       v-model="show"
       title="Prediction weather">
+    <h2>Location: {{selected.city}}</h2>
     <h2>Temperature:{{ predictEntity.temp }}&deg;C</h2>
-    <h2>Pressure: {{ predictEntity.humidity }} hPa</h2>
-    <h2>Humidity: {{ predictEntity.pressure }}&percnt;</h2>
+    <h2>Pressure: {{ predictEntity.pressure }}hPa</h2>
+    <h2>Humidity: {{ predictEntity.humidity }} &percnt;</h2>
   </b-modal>
   </div>
 </template>
@@ -25,7 +24,7 @@ export default {
   name: "predictions",
   data() {
     return {
-      selected:null,
+      selected:"Open this select location",
       show: false,
       activeCities:[],
       predictEntity: {
@@ -36,17 +35,24 @@ export default {
     }
   },
   methods: {
-    predict(location) {
-      if(this.selected==null){
+     predict() {
+      if(this.selected=="Open this select location"){
         alert("Must first select location")
         return
       }
 
       this.show = true;
-      predictionsService.predict(location).then(resp => {
-            alert(resp.body);
+      predictionsService.predict(this.selected.city).then(resp => {
+        this.predictEntity.pressure = resp.data.pressure
+        this.predictEntity.temp = resp.data.temp
+        this.predictEntity.humidity = resp.data.humidity
           }
       );
+    },
+
+    select(location){
+       alert(this.selected)
+       this.selected = location;
     },
 
     getActiveCities() {
@@ -55,6 +61,9 @@ export default {
       })
     },
 
+  },
+  mounted() {
+    this.getActiveCities()
   }
 }
 
