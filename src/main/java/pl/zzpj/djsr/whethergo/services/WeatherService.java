@@ -7,9 +7,12 @@ import org.springframework.web.client.RestTemplate;
 import pl.zzpj.djsr.whethergo.dtos.WeatherDTO;
 import pl.zzpj.djsr.whethergo.entities.LocationEntity;
 import pl.zzpj.djsr.whethergo.entities.WeatherEntity;
+import pl.zzpj.djsr.whethergo.repositories.LocationRepository;
 import pl.zzpj.djsr.whethergo.repositories.WeatherRepository;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -18,6 +21,7 @@ public class WeatherService {
     final RestTemplate restTemplate;
     final WeatherRepository weatherRepository;
     final ArrayList<LocationEntity> locationList = new ArrayList<>();
+    final LocationRepository locationRepository;
 
     public void importFromOpenWeatherMap() {
         var weatherDTO = restTemplate.getForObject(
@@ -73,33 +77,31 @@ public class WeatherService {
     public void setLocationList(ArrayList<LocationEntity> newList) {
         this.locationList.clear();
         this.locationList.addAll(newList);
+        this.locationRepository.saveAll(this.locationList);
+        log.debug("Saved all locations in repository");
     }
 
     public boolean setLocationImporting(String name, boolean importing) {
-        for(LocationEntity location : locationList) {
-            if(location.getName().equals(name)) {
-                location.setImporting(importing);
-                return true;
-            }
+        Optional<LocationEntity> optionalLocation = this.locationRepository.findByName(name);
+        if(optionalLocation.isPresent()) {
+            LocationEntity location = optionalLocation.get();
+            location.setImporting(importing);
+            this.locationRepository.save(location);
+            log.debug("Successfully updated importing for " + name);
+            return true;
         }
         return false;
     }
 
-    public ArrayList<LocationEntity> getLocationsByImporting(boolean importing) {
-        ArrayList<LocationEntity> result = new ArrayList<>();
-        for(LocationEntity location : locationList) {
-            if(location.isImporting() == importing) {
-                result.add(location);
-            }
-        }
-        return result;
+    public List<LocationEntity> getLocationsByImporting(boolean importing) {
+        return this.locationRepository.findAllByImporting(importing);
     }
 
-    public ArrayList<LocationEntity> getActiveLocations() {
+    public List<LocationEntity> getActiveLocations() {
         return getLocationsByImporting(true);
     }
 
-    public ArrayList<LocationEntity> getInactiveLocations() {
+    public List<LocationEntity> getInactiveLocations() {
         return getLocationsByImporting(false);
     }
 }
