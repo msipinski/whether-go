@@ -13,6 +13,7 @@ public class SubscriptionConverter {
     public static SubscriptionDTO subscriptionDTOFromEntity(SubscriptionEntity subscriptionEntity){
         return new SubscriptionDTO(subscriptionEntity.getId(),
                 subscriptionEntity.getHour(),
+                subscriptionEntity.getMinute(),
                 LocationConverter.locationDTOFromEntity(subscriptionEntity.getLocation()),
                 subscriptionEntity.getLastNotificationDate());
     }
@@ -26,6 +27,7 @@ public class SubscriptionConverter {
     public static SubscriptionEntity subscriptionEntityFromDTO(SubscriptionDTO subscriptionDTO, AccountEntity accountEntity, LocationEntity locationEntity){
         return new SubscriptionEntity(accountEntity,
                 subscriptionDTO.getHour(),
+                subscriptionDTO.getMinute(),
                 locationEntity,
                 subscriptionDTO.getLastNotificationDate());
     }

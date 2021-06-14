@@ -32,7 +32,7 @@
                 </property>
             </activation>
             <properties>
-                <spring.datasource.url>jdbc:h2:mem:test</spring.datasource.url>
+                <spring.datasource.url>jdbc:h2:file:./h2/test</spring.datasource.url>
             </properties>
             <dependencies>
                 <dependency>
@@ -115,6 +115,11 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.5.0-b01</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

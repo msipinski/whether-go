@@ -10,9 +10,11 @@ import pl.zzpj.djsr.whethergo.entities.WeatherEntity;
 import pl.zzpj.djsr.whethergo.repositories.LocationRepository;
 import pl.zzpj.djsr.whethergo.repositories.WeatherRepository;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 @Log4j2
 @RequiredArgsConstructor
@@ -20,8 +22,8 @@ import java.util.Optional;
 public class WeatherService {
     final RestTemplate restTemplate;
     final WeatherRepository weatherRepository;
-    final ArrayList<LocationEntity> locationList = new ArrayList<>();
     final LocationRepository locationRepository;
+
 
     public void importFromOpenWeatherMap() {
         var weatherDTO = restTemplate.getForObject(
@@ -34,6 +36,7 @@ public class WeatherService {
                     .temp(weatherDTO.getMain().getTemp())
                     .pressure(weatherDTO.getMain().getPressure())
                     .humidity(weatherDTO.getMain().getHumidity())
+                    .createdDate(Instant.now())
                     .build();
             log.debug(weatherEntity);
             weatherRepository.save(weatherEntity);
@@ -66,42 +69,14 @@ public class WeatherService {
     }
 
     public void importWeatherForChosenCities() {
-        for(LocationEntity location : locationList) {
+        for(LocationEntity location : this.locationRepository.findAll()) {
             if(location.isImporting()) {
                 log.debug("Importing data for " + location.getName());
                 importWeatherDataForCity(location.getName());
             }
         }
     }
-
-    public void setLocationList(ArrayList<LocationEntity> newList) {
-        this.locationList.clear();
-        this.locationList.addAll(newList);
-        this.locationRepository.saveAll(this.locationList);
-        log.debug("Saved all locations in repository");
-    }
-
-    public boolean setLocationImporting(String name, boolean importing) {
-        Optional<LocationEntity> optionalLocation = this.locationRepository.findByName(name);
-        if(optionalLocation.isPresent()) {
-            LocationEntity location = optionalLocation.get();
-            location.setImporting(importing);
-            this.locationRepository.save(location);
-            log.debug("Successfully updated importing for " + name);
-            return true;
-        }
-        return false;
-    }
-
-    public List<LocationEntity> getLocationsByImporting(boolean importing) {
-        return this.locationRepository.findAllByImporting(importing);
-    }
-
-    public List<LocationEntity> getActiveLocations() {
-        return getLocationsByImporting(true);
-    }
-
-    public List<LocationEntity> getInactiveLocations() {
-        return getLocationsByImporting(false);
+    public WeatherEntity getLatestForLocalization(LocationEntity locationEntity){
+        return weatherRepository.findFirstByLocationOrderByCreatedDateDesc(locationEntity);
     }
 }

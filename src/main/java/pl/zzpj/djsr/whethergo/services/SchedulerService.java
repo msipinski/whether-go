@@ -12,14 +12,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SchedulerService {
     final WeatherService weatherService;
-    static String selectedCityName = "London";
 
     @Scheduled(fixedRate = 10_000)
     void importFromOpenWeatherMap() {
         weatherService.importWeatherForChosenCities();
-    }
-
-    public static void setSelectedCityName(String newCityName) {
-        selectedCityName = newCityName;
     }
 }

@@ -18,6 +18,9 @@ public class SubscriptionDTO {
     @Min(0)
     @Max(23)
     Integer hour;
+    @Min(0)
+    @Max(59)
+    Integer minute;
     LocationDTO location;
     @Nullable
     Instant lastNotificationDate;

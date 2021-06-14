@@ -49,4 +49,9 @@ public class SubscriptionController {
                         getUser(), locationService.getLocationByName(subscriptionDTO.getLocation().getName()).orElse(null)))
         );
     }
+
+    @DeleteMapping("/unsubscribe/{id}")
+    public boolean unsubscribe(@PathVariable Long id){
+        return subscriptionService.removeSubscription(getUser(),id);
+    }
 }

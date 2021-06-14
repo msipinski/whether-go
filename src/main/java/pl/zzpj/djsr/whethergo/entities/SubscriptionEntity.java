@@ -19,11 +19,15 @@ import java.time.Instant;
 @AllArgsConstructor
 @Entity
 public class SubscriptionEntity extends AbstractPersistable<Long> {
-    @ManyToOne
+    @ManyToOne()
+    @Cascade(CascadeType.MERGE)
     AccountEntity user;
     @Min(0)
     @Max(23)
     Integer hour;
+    @Min(0)
+    @Max(59)
+    Integer minute;
     @ManyToOne
     @Cascade(CascadeType.REFRESH)
     LocationEntity location;
