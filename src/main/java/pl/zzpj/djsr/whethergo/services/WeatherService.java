@@ -71,11 +71,11 @@ public class WeatherService {
     }
 
     public void importWeatherForChosenCities() {
-        for(LocationEntity location : this.locationRepository.findAll()) {
-            if(location.isImporting()) {
-                log.debug("Importing data for " + location.getName());
-                importWeatherDataForCity(location);
-            }
+        var allByImporting = locationRepository.findAllByImporting(true);
+        log.info("Importing weather data for " + allByImporting.size() + " location(s)...");
+        for (LocationEntity location : allByImporting) {
+            log.debug("Importing data for " + location.getName());
+            importWeatherDataForCity(location);
         }
     }
     public WeatherEntity getLatestForLocalization(LocationEntity locationEntity){

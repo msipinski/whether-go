@@ -2,7 +2,10 @@
   <b-navbar type="dark" variant="info">
     <b-container>
       <b-navbar-brand to="/">Home</b-navbar-brand>
-      <b-nav class="mb-auto">
+      <b-nav>
+        <b-nav-item to="/admin">Admin</b-nav-item>
+      </b-nav>
+      <b-nav class="ms-auto">
         <b-nav-item v-if="!username" to="/login">Log in</b-nav-item>
         <b-nav-item v-if="!username" to="/register">Register</b-nav-item>
         <b-nav-item v-if="username" @click="logout">Logout</b-nav-item>
