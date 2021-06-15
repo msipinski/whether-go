@@ -35,12 +35,12 @@ let weatherService = {
     })
   },
   addCity(cityName) {
-    return api.get('/weather/addCity/' + cityName).then(res => {
+    return api.post('/weather/addCity/' + cityName).then(res => {
         return {...res, data: res.data}
     })
   },
   removeCity(cityName) {
-      return api.get('/weather/removeCity/' + cityName).then(res => {
+      return api.post('/weather/removeCity/' + cityName).then(res => {
           return {...res, data: res.data}
       })
   },
