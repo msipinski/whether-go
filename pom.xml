@@ -19,6 +19,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <app.location.default>Łódź</app.location.default>
         <app.scheduler.enabled>true</app.scheduler.enabled>
         <app.dev>false</app.dev>
     </properties>

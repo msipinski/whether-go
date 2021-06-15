@@ -33,9 +33,9 @@ export default {
   methods: {
     fetchData() {
       weatherService.list().then(response => {
-        let labels = _.map(response.data, e => e.createdDate.toLocaleString())
+        let labels = _.map(response.data.reverse(), e => e.createdDate.toLocaleString())
         let keys = ['temp', 'pressure', 'humidity']
-        let {temp, pressure, humidity} = _.zipObject(keys, _.map(keys, key => _.map(response.data, key)));
+        let {temp, pressure, humidity} = _.zipObject(keys, _.map(keys, key => _.map(response.data.reverse(), key)));
 
         // let temp = _.map(response.data, e => e.temp)
         // let pressure = _.map(response.data, e => e.temp)
