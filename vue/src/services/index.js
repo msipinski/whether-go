@@ -53,12 +53,22 @@ let weatherService = {
 }
 
 let predictionsService = {
-  async predict(location) {
+   predict(location) {
     return api.get("weather/predict/" + location).then(res => {
       return {...res, data: res.data}
     })
   },
+
+  predictPast(location, dateWindowCenter, nearRecordsCount, interpolationDate) {
+    return api.get("weather/predict/" + location + "/" + dateWindowCenter + "/" + nearRecordsCount + "/" + interpolationDate)
+        .then(res => {
+      return {...res, data: res.data}
+    })
+  }
 }
+
+
+
 export {
   weatherService,
   predictionsService

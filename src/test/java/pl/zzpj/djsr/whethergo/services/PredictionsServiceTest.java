@@ -1,10 +1,7 @@
 package pl.zzpj.djsr.whethergo.services;
 
-import net.bytebuddy.matcher.FilterableList;
 import org.junit.jupiter.api.Test;
 import java.awt.geom.Point2D;
-import java.lang.reflect.Array;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PredictionsServiceTest {
 
-    PredictionsService service;
 
     @Test
     public void lagrangePredictionTest(){
@@ -36,8 +32,5 @@ class PredictionsServiceTest {
         assertEquals(1, PredictionsService.lagrangePrediction(points3,4));
     }
 
-    @Test
-    public void predictWeatherTest(){
-    }
 
 }
