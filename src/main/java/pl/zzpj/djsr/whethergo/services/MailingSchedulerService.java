@@ -7,10 +7,8 @@ import org.springframework.stereotype.Service;
 import pl.zzpj.djsr.whethergo.entities.SubscriptionEntity;
 import pl.zzpj.djsr.whethergo.entities.WeatherEntity;
 
-import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
@@ -25,9 +23,11 @@ public class MailingSchedulerService {
 
     @Scheduled(fixedRate = 50_000)
     public void sendSubscription(){
+        log.info("Searching for subscriptions...");
         for (SubscriptionEntity s : subscriptionService.getAll()) {
-            if (s.getHour() == OffsetDateTime.now().getHour()
-                    && s.getMinute() == OffsetDateTime.now().getMinute()) {
+            if (s.getHour() == OffsetDateTime.now(ZoneId.of("UTC")).getHour()
+                    && s.getMinute() == OffsetDateTime.now(ZoneId.of("UTC")).getMinute()) {
+                log.info("Sending mail to user " + s.getUser().getEmail() + "...");
                 WeatherEntity weatherEntity = weatherService.getLatestForLocalization(s.getLocation());
                 mailingService.sendMail(
                         s.getUser().getEmail(),
