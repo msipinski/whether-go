@@ -1,5 +1,6 @@
 <template>
   <div>
+    <my-menu/>
     <h2>Aktywne miasta</h2>
     <span v-if="displayedActiveCities.length == 0" style="font-size: x-large;">Brak aktywnych miast</span>
     <b-btn v-if="displayedActiveCities.length > 0" @click="importForChosenCities()">Importuj aktywne</b-btn>
@@ -39,9 +40,11 @@
 
 <script>
 import {weatherService} from "@/services";
+import MyMenu from '@/components/MyMenu'
 
 export default {
   name: "CityImporting",
+  components: {MyMenu},
   data() {
     return {
       activeCities: [],
@@ -62,7 +65,9 @@ export default {
         })
     },
     getInactiveCities() {
+      console.log("Here!")
         weatherService.getInactiveCities().then(response => {
+          console.log(response.data.length)
             this.inactiveCities.push(...response.data)
             this.updateDisplayedInactiveCities()
             this.numberOfPages = Math.ceil(this.inactiveCities.length / this.pageSize)
@@ -129,7 +134,7 @@ export default {
     }
   },
   mounted() {
-    this.getActiveCities(),
+    this.getActiveCities()
     this.getInactiveCities()
   }
 }

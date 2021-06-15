@@ -9,5 +9,5 @@ import java.util.List;
 public interface WeatherRepository extends JpaRepository<WeatherEntity, Long> {
     WeatherEntity findFirstByLocationOrderByCreatedDateDesc(LocationEntity location);
 
-    List<WeatherEntity> findAllByLocation(LocationEntity location);
+    List<WeatherEntity> findTop500ByLocationOrderByCreatedDateDesc(LocationEntity location);
 }
