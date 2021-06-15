@@ -4,11 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.zzpj.djsr.whethergo.entities.LocationEntity;
+import pl.zzpj.djsr.whethergo.entities.SubscriptionEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -28,6 +32,9 @@ public class AccountEntity extends AbstractPersistable<Long> implements UserDeta
     Set<AuthorityEnum> authorities = EnumSet.noneOf(AuthorityEnum.class);
     @ManyToOne
     LocationEntity preferredLocation;
+    @OneToMany(mappedBy = "user")
+    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
+    List<SubscriptionEntity> subscriptions;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -80,13 +87,13 @@ public class AccountEntity extends AbstractPersistable<Long> implements UserDeta
             return this;
         }
 
-        public Builder withPrefferedLoaction(LocationEntity preferredLocation) {
+        public Builder withPreferred(LocationEntity preferredLocation) {
             this.preferredLocation = preferredLocation;
             return this;
         }
 
         public AccountEntity build() {
-            return new AccountEntity(username, password, email, authorities, preferredLocation);
+            return new AccountEntity(username, password, email, authorities, preferredLocation, new ArrayList<>());
         }
     }
 }

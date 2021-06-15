@@ -5,10 +5,16 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.zzpj.djsr.whethergo.dtos.WeatherDTO;
+import pl.zzpj.djsr.whethergo.entities.LocationEntity;
 import pl.zzpj.djsr.whethergo.entities.WeatherEntity;
+import pl.zzpj.djsr.whethergo.repositories.LocationRepository;
 import pl.zzpj.djsr.whethergo.repositories.WeatherRepository;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 
 @Log4j2
 @RequiredArgsConstructor
@@ -16,6 +22,8 @@ import java.time.Instant;
 public class WeatherService {
     final RestTemplate restTemplate;
     final WeatherRepository weatherRepository;
+    final LocationRepository locationRepository;
+
 
     public void importFromOpenWeatherMap() {
         var weatherDTO = restTemplate.getForObject(
@@ -30,7 +38,7 @@ public class WeatherService {
                     .humidity(weatherDTO.getMain().getHumidity())
                     .createdDate(Instant.now())
                     .build();
-            log.error(weatherEntity.getCreatedDate());
+            log.debug(weatherEntity);
             weatherRepository.save(weatherEntity);
             log.debug("Imported data from openweathermap.org");
         } else {
@@ -38,9 +46,9 @@ public class WeatherService {
         }
     }
 
-    public void importWeatherDataForCity(String cityName) {
+    public void importWeatherDataForCity(LocationEntity locationEntity) {
         var url = "https://api.openweathermap.org/data/2.5/weather?q="
-                + cityName + "&appid=6cc72bb35fdd263c3ea986c5be325603";
+                + locationEntity.getName() + "&appid=6cc72bb35fdd263c3ea986c5be325603";
         var weatherDTO = restTemplate.getForObject(
                 url,
                 WeatherDTO.class
@@ -51,6 +59,8 @@ public class WeatherService {
                     .temp(weatherDTO.getMain().getTemp())
                     .pressure(weatherDTO.getMain().getPressure())
                     .humidity(weatherDTO.getMain().getHumidity())
+                    .createdDate(Instant.now())
+                    .location(locationEntity)
                     .build();
             log.debug(weatherEntity);
             weatherRepository.save(weatherEntity);
@@ -58,5 +68,17 @@ public class WeatherService {
         } else {
             log.warn("Import from openweathermap.org failed");
         }
+    }
+
+    public void importWeatherForChosenCities() {
+        for(LocationEntity location : this.locationRepository.findAll()) {
+            if(location.isImporting()) {
+                log.debug("Importing data for " + location.getName());
+                importWeatherDataForCity(location);
+            }
+        }
+    }
+    public WeatherEntity getLatestForLocalization(LocationEntity locationEntity){
+        return weatherRepository.findFirstByLocationOrderByCreatedDateDesc(locationEntity);
     }
 }
