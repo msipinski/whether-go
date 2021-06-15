@@ -3,6 +3,7 @@ package pl.zzpj.djsr.whethergo.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +33,13 @@ public class SubscriptionController {
                 .orElse(null);
     }
 
+    @PreAuthorize("hasRole('CLIENT')")
     @GetMapping
     public List<SubscriptionDTO> getSubscriptions(){
         return SubscriptionConverter.subscriptionDTOsFromEntities(subscriptionService.getSubscriptionEntitiesByUser(getUser()));
     }
 
+    @PreAuthorize("hasRole('CLIENT')")
     @RequestMapping(
             value = { "/subscribe" },
             method = RequestMethod.POST,
@@ -49,7 +52,7 @@ public class SubscriptionController {
                         getUser(), locationService.getLocationByName(subscriptionDTO.getLocation().getName()).orElse(null)))
         );
     }
-
+    @PreAuthorize("hasRole('CLIENT')")
     @DeleteMapping("/unsubscribe/{id}")
     public boolean unsubscribe(@PathVariable Long id){
         return subscriptionService.removeSubscription(getUser(),id);

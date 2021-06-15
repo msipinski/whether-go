@@ -36,11 +36,6 @@ public class AccountController {
         return accountRepository.findAll();
     }
 
-    @GetMapping("/get-mine")
-    public AccountEntity getMine(Authentication authentication) {
-        return (AccountEntity) authentication.getPrincipal();
-    }
-
     @GetMapping("/username")
     public String getUsername(Authentication authentication) {
         return ((AccountEntity) authentication.getPrincipal()).getUsername();

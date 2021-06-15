@@ -3,6 +3,7 @@ package pl.zzpj.djsr.whethergo.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,22 +78,24 @@ public class WeatherController {
         log.debug(locationNames.size());
         return locationNames;
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addCity/{cityName}")
     public boolean addCity(@PathVariable String cityName) {
         return locationService.setLocationImporting(cityName, true);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/removeCity/{cityName}")
     public boolean removeCity(@PathVariable String cityName) {
         return locationService.setLocationImporting(cityName, false);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/importAll")
     public void importForChosenCities() {
         weatherService.importWeatherForChosenCities();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/import/{cityName}")
     public void importForCity(@PathVariable String cityName) {
         weatherService.importWeatherDataForCity(Objects.requireNonNull(locationService.getLocationByName(cityName).orElse(null)));
