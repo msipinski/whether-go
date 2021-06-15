@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class SchedulerService {
     final WeatherService weatherService;
 
-    @Scheduled(fixedRate = 10_000)
+    @Scheduled(fixedRate = 300_000)
     void importFromOpenWeatherMap() {
         weatherService.importWeatherForChosenCities();
     }

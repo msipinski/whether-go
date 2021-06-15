@@ -32,7 +32,7 @@
                 </property>
             </activation>
             <properties>
-                <spring.datasource.url>jdbc:h2:file:./h2/test</spring.datasource.url>
+                <spring.datasource.url>jdbc:h2:mem:test</spring.datasource.url>
             </properties>
             <dependencies>
                 <dependency>
