@@ -93,8 +93,9 @@ public class MailingService {
             message.setContent(content, "text/html; charset=UTF-8");
 
             Transport.send(message);
+            log.info("Mail sent");
         } catch (MessagingException e) {
-            e.printStackTrace();
+            log.error(e);
         }
 
     }
