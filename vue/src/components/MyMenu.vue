@@ -10,6 +10,7 @@
         <b-nav-item v-if="!username" to="/register">Register</b-nav-item>
         <b-nav-item v-if="username" @click="logout">Logout</b-nav-item>
         <b-nav-text v-if="username">{{ username }}</b-nav-text>
+        <b-nav-item v-if="username" to ="/subscriptions">Subscriptions</b-nav-item>
       </b-nav>
     </b-container>
   </b-navbar>

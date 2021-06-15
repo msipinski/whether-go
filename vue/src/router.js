@@ -4,6 +4,7 @@ import Register from '@/views/Register'
 import Home from '@/views/Home'
 import Login from '@/views/Login'
 import CityImporting from '@/views/CityImporting'
+import Subscriptions from "@/views/Subscriptions"
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,10 @@ let routes = [
   {
     path: '/admin',
     component: CityImporting,
+  },
+  {
+    path: '/subscriptions',
+    component: Subscriptions,
   },
 ]
 
