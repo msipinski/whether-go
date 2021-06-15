@@ -11,6 +11,8 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -33,9 +35,12 @@ public class MailingSchedulerService {
                         subject.replace("[CITY]", s.getLocation().getName()),
                         mailingService.getSubscriptionTemplate()
                                 .replace("[CITY]", s.getLocation().getName())
-                                .replace("[TEMP]", weatherEntity.getTemp().toString())
+                                .replace("[TEMP]", String.valueOf(weatherEntity.getTemp() - 272.15))
                                 .replace("[PRESSURE]", weatherEntity.getPressure().toString())
-                                .replace("[TIME]", OffsetDateTime.ofInstant(weatherEntity.getCreatedDate(), ZoneId.of("UTC")).toString())
+                                .replace("[HUMIDITY]", weatherEntity.getHumidity().toString())
+                                .replace("[TIME]", OffsetDateTime
+                                        .ofInstant(weatherEntity.getCreatedDate(), ZoneId.of("UTC"))
+                                        .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)))
                 );
             }
         }
