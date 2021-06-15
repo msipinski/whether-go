@@ -11,6 +11,7 @@ import pl.zzpj.djsr.whethergo.entities.LocationEntity;
 import pl.zzpj.djsr.whethergo.entities.SubscriptionEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.EnumSet;
 import java.util.Set;
@@ -86,13 +87,13 @@ public class AccountEntity extends AbstractPersistable<Long> implements UserDeta
             return this;
         }
 
-        public Builder withPrefferedLoaction(LocationEntity preferredLocation) {
+        public Builder withPreferred(LocationEntity preferredLocation) {
             this.preferredLocation = preferredLocation;
             return this;
         }
 
         public AccountEntity build() {
-            return new AccountEntity(username, password, email, authorities, preferredLocation);
+            return new AccountEntity(username, password, email, authorities, preferredLocation, new ArrayList<>());
         }
     }
 }

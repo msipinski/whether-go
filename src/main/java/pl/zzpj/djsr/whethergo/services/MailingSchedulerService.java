@@ -23,15 +23,14 @@ public class MailingSchedulerService {
     final WeatherService weatherService;
     final String subject = "Weather subscription for [CITY]";
 
-    @Scheduled(fixedRate = 1_000)
+    @Scheduled(fixedRate = 50_000)
     public void sendSubscription(){
         for (SubscriptionEntity s : subscriptionService.getAll()) {
             if (s.getHour() == OffsetDateTime.now().getHour()
                     && s.getMinute() == OffsetDateTime.now().getMinute()) {
                 WeatherEntity weatherEntity = weatherService.getLatestForLocalization(s.getLocation());
                 mailingService.sendMail(
-                        //s.getUser().getEmail(),
-                        "oluswielki@gmail.com",
+                        s.getUser().getEmail(),
                         subject.replace("[CITY]", s.getLocation().getName()),
                         mailingService.getSubscriptionTemplate()
                                 .replace("[CITY]", s.getLocation().getName())
