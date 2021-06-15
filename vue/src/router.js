@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Register from '@/views/Register'
 import Home from '@/views/Home'
 import Login from '@/views/Login'
+import Subscriptions from "@/views/Subscriptions";
 
 Vue.use(VueRouter)
 
@@ -18,6 +19,10 @@ let routes = [
   {
     path: '/register',
     component: Register,
+  },
+  {
+    path: '/subscriptions',
+    component: Subscriptions,
   },
 ]
 
